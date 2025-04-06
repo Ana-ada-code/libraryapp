@@ -37,8 +37,8 @@ export class BookService {
     return this.http.get(this.baseUrl);
   }
 
-  searchBooks(title: string): Observable<Book[]> {
-    return this.http.get<Book[]>(this.baseUrl + '?title=' + title);
+  searchBooks(text: string): Observable<Book[]> {
+    return this.http.get<Book[]>(this.baseUrl + '?text=' + text);
   }
 
   notifyBookListChanged() {
