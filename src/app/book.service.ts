@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import {HttpClient} from '@angular/common/http';
-import {Observable} from 'rxjs';
+import {BehaviorSubject, Observable} from 'rxjs';
 import {Book} from './book';
 
 @Injectable({
@@ -9,6 +9,9 @@ import {Book} from './book';
 export class BookService {
 
   private baseUrl = 'http://localhost:8080/api/books';
+
+  private bookListUpdated = new BehaviorSubject<void>(undefined);
+  bookListUpdated$ = this.bookListUpdated.asObservable();
 
   constructor(private http: HttpClient) {
   }
@@ -35,5 +38,9 @@ export class BookService {
 
   searchBooks(title: string): Observable<Book[]> {
     return this.http.get<Book[]>(this.baseUrl + '?title=' + title);
+  }
+
+  notifyBookListChanged() {
+    this.bookListUpdated.next();
   }
 }

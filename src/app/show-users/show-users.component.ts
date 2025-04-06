@@ -39,11 +39,11 @@ export class ShowUsersComponent implements OnInit {
   }
 
   userDetails(id: number) {
-    this.router.navigate(['details', id]);
+    this.router.navigate(['user-details', id]);
   }
 
   updateUser(user: User) {
-    this.router.navigate(['update', user]);
+    this.router.navigate(['update-user', user]);
   }
 
   onSearch() {

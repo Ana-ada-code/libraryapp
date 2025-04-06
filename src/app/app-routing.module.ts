@@ -13,11 +13,11 @@ const routes: Routes = [
   {path: '', redirectTo: 'user', pathMatch: 'full'},
   {path: 'users', component: ShowUsersComponent},
   {path: 'add-user', component: CreateUserComponent},
-  {path: 'update', component: UpdateUserComponent},
+  {path: 'update-user', component: UpdateUserComponent},
   {path: 'details/:id', component: ReadUserComponent},
   {path: 'books', component: ShowBooksComponent},
   {path: 'add-book', component: CreateBookComponent},
-  { path: 'update-book', component: UpdateBookComponent }
+  {path: 'update-book', component: UpdateBookComponent }
   // { path: 'book-details/:id', component: ReadBookComponent }
 ];
 

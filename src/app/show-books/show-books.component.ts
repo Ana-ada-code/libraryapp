@@ -18,6 +18,9 @@ export class ShowBooksComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.bookService.bookListUpdated$.subscribe(() => {
+      this.fetchBookList();
+    });
     this.fetchBookList();
   }
 
@@ -36,11 +39,11 @@ export class ShowBooksComponent implements OnInit {
   }
 
   bookDetails(id: number) {
-    this.router.navigate(['details', id]);
+    this.router.navigate(['book-details', id]);
   }
 
   updateBook(book: Book) {
-    this.router.navigate(['update', book]);
+    this.router.navigate(['update-book', book]);
   }
 
   onSearchBook() {
