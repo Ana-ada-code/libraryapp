@@ -16,9 +16,14 @@ export class CreateBookComponent implements OnInit {
   }
 
   book: Book = new Book(undefined!, '', '', '', '');
+  genres: string[] = [];
   submitted = false;
 
   ngOnInit() {
+    this.bookService.getGenres().subscribe(
+      data => this.genres = data,
+      error => console.error(error)
+    );
   }
 
   saveBook() {

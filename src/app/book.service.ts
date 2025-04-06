@@ -8,6 +8,7 @@ import {Book} from './book';
 })
 export class BookService {
 
+  private url = 'http://localhost:8080/api';
   private baseUrl = 'http://localhost:8080/api/books';
 
   private bookListUpdated = new BehaviorSubject<void>(undefined);
@@ -42,5 +43,9 @@ export class BookService {
 
   notifyBookListChanged() {
     this.bookListUpdated.next();
+  }
+
+  getGenres(): Observable<string[]> {
+    return this.http.get<string[]>(this.url + '/genres/names');
   }
 }

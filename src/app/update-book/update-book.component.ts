@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {Book} from '../book';
 import {ActivatedRoute, Router} from '@angular/router';
 import {BookService} from '../book.service';
@@ -11,7 +11,8 @@ import {BookService} from '../book.service';
 export class UpdateBookComponent implements OnInit {
 
   id: number = 0;
-  book: Book = new Book(undefined!, '', '', '','');
+  book: Book = new Book(undefined!, '', '', '', '');
+  genres: string[] = [];
   submitted = false;
 
   constructor(private route: ActivatedRoute, private router: Router,
@@ -19,7 +20,12 @@ export class UpdateBookComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.book = new Book(undefined!, '', '', '','');
+    this.book = new Book(undefined!, '', '', '', '')
+
+    this.bookService.getGenres().subscribe(
+      data => this.genres = data,
+      error => console.error(error)
+    );
 
     this.id = this.route.snapshot.params['id'];
 
