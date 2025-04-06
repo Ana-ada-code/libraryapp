@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
-import {Observable} from 'rxjs';
+import {BehaviorSubject, Observable} from 'rxjs';
 import {User} from './user';
 
 @Injectable({
@@ -9,6 +9,9 @@ import {User} from './user';
 export class UserService {
 
   private baseUrl = 'http://localhost:8080/api/users';
+
+  private userListUpdated = new BehaviorSubject<void>(undefined);
+  userListUpdated$ = this.userListUpdated.asObservable();
 
   constructor(private http: HttpClient) {
   }
@@ -35,5 +38,9 @@ export class UserService {
 
   searchUsers(lastName: string): Observable<User[]> {
     return this.http.get<User[]>(this.baseUrl + '?lastName=' + lastName);
+  }
+
+  notifyUserListChanged(): void {
+    this.userListUpdated.next();
   }
 }

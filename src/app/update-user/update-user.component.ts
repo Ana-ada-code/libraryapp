@@ -1,7 +1,7 @@
-import { Component, OnInit } from '@angular/core';
-import { User } from '../user';
-import { ActivatedRoute, Router } from '@angular/router';
-import { UserService } from '../user.service';
+import {Component, OnInit} from '@angular/core';
+import {User} from '../user';
+import {ActivatedRoute, Router} from '@angular/router';
+import {UserService} from '../user.service';
 
 
 @Component({
@@ -14,9 +14,9 @@ export class UpdateUserComponent implements OnInit {
   user: User = new User(undefined!, '', '', '');
   submitted = false;
 
-
-  constructor(private route: ActivatedRoute,private router: Router,
-              private userService: UserService) { }
+  constructor(private route: ActivatedRoute, private router: Router,
+              private userService: UserService) {
+  }
 
   ngOnInit() {
     this.user = new User(undefined!, '', '', '');
@@ -30,20 +30,12 @@ export class UpdateUserComponent implements OnInit {
       }, error => console.log(error));
   }
 
-  updateUser() {
-    this.userService.updateUser(this.id, this.user)
-      .subscribe(data => console.log(data), error => console.log(error));
-    this.user = new User(this.id, '', '', '');
-    this.submitted = true;
-    this.gotoList();
-  }
-
-  onSubmit() {
-    this.updateUser();
-  }
-
-  gotoList() {
-    this.router.navigate(['/users']);
+  onSubmit(): void {
+    this.userService.updateUser(this.user.id, this.user).subscribe(() => {
+      this.userService.notifyUserListChanged();
+      this.submitted = true;
+      this.router.navigate(['/users']);
+    });
   }
 
 }

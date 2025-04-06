@@ -18,6 +18,9 @@ export class ShowUsersComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.userService.userListUpdated$.subscribe(() => {
+      this.fetchUserList();
+    });
     this.fetchUserList();
   }
 
