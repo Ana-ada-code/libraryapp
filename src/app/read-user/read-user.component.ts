@@ -3,7 +3,7 @@ import {UserService} from '../user.service';
 import {Router, ActivatedRoute} from '@angular/router';
 import {Route} from '@angular/router';
 import {User} from '../user';
-import { Loan } from "../loan";
+import {Loan} from "../loan";
 
 
 @Component({

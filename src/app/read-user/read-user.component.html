@@ -1,15 +1,15 @@
 <div class="container my-4">
   <h2 class="text-center mb-4">User Details</h2>
   <div *ngIf="user" class="mb-4">
-    <div><strong>First Name:</strong> {{user.firstName}}</div>
-    <div><strong>Last Name:</strong> {{user.lastName}}</div>
-    <div><strong>Pesel:</strong> {{user.pesel}}</div>
+    <div><strong>First Name:</strong> {{ user.firstName }}</div>
+    <div><strong>Last Name:</strong> {{ user.lastName }}</div>
+    <div><strong>Pesel:</strong> {{ user.pesel }}</div>
   </div>
 
   <h4 class="mt-5">Borrowed Books</h4>
   <div *ngIf="loans?.length; else noLoans" class="table-responsive mt-3">
     <table class="table table-bordered table-striped text-center">
-      <thead class="table-light">
+      <thead class="thead-dark">
       <tr>
         <th>Title</th>
         <th>Author</th>
