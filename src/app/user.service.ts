@@ -43,4 +43,12 @@ export class UserService {
   notifyUserListChanged(): void {
     this.userListUpdated.next();
   }
+
+  getUserLoans(userId: number): Observable<any[]> {
+    return this.http.get<any[]>(this.baseUrl + '/' + userId + '/loans');
+  }
+
+  returnBook(loanId: number): Observable<any> {
+    return this.http.post(`http://localhost:8080/api/loans/${loanId}/finish`, {});
+  }
 }

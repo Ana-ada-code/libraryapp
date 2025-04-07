@@ -1,18 +1,46 @@
-<h2>User Details</h2>
+<div class="container my-4">
+  <h2 class="text-center mb-4">User Details</h2>
+  <div *ngIf="user" class="mb-4">
+    <div><strong>First Name:</strong> {{user.firstName}}</div>
+    <div><strong>Last Name:</strong> {{user.lastName}}</div>
+    <div><strong>Pesel:</strong> {{user.pesel}}</div>
+  </div>
 
-<hr/>
-<div *ngIf="user">
-  <div>
-    <label><b>First Name: </b></label> {{user.firstName}}
+  <h4 class="mt-5">Borrowed Books</h4>
+  <div *ngIf="loans?.length; else noLoans" class="table-responsive mt-3">
+    <table class="table table-bordered table-striped text-center">
+      <thead class="table-light">
+      <tr>
+        <th>Title</th>
+        <th>Author</th>
+        <th>ISBN</th>
+        <th>Borrowed</th>
+        <th>Returned</th>
+        <th>Action</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let loan of loans">
+        <td>{{ loan.bookTitle }}</td>
+        <td>{{ loan.bookAuthor }}</td>
+        <td>{{ loan.bookIsbn }}</td>
+        <td>{{ loan.start | date: 'shortDate' }}</td>
+        <td>{{ loan.finish ? (loan.finish | date: 'shortDate') : '—' }}</td>
+        <td>
+          <button *ngIf="!loan.finish" (click)="returnBook(loan.id)" class="btn btn-warning btn-sm">
+            Return
+          </button>
+        </td>
+      </tr>
+      </tbody>
+    </table>
   </div>
-  <div>
-    <label><b>Last Name: </b></label> {{user.lastName}}
-  </div>
-  <div>
-    <label><b>Pesel: </b></label> {{user.pesel}}
+
+  <ng-template #noLoans>
+    <p>This user has no current or past loans.</p>
+  </ng-template>
+
+  <div class="text-center mt-4">
+    <button class="btn btn-primary" (click)="goBack()">Back to Users List</button>
   </div>
 </div>
-
-<br>
-<br>
-<button (click)="list()" class="btn btn-primary">Back to Users List</button><br>
