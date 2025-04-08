@@ -4,6 +4,7 @@ import {BehaviorSubject, Observable} from 'rxjs';
 import {Book} from './book';
 import {BookLoan} from "./book-loan";
 import {User} from "./user";
+import {BookDetails} from "./book-details";
 
 @Injectable({
   providedIn: 'root'
@@ -65,6 +66,10 @@ export class BookService {
 
   borrowBook(loan: any): Observable<any> {
     return this.http.post(`http://localhost:8080/api/loans`, loan);
+  }
+
+  getBookDetails(isbn: string): Observable<BookDetails> {
+    return this.http.get<BookDetails>(`http://localhost:8080/api/books/details/${isbn}`);
   }
 
 }

@@ -5,6 +5,7 @@ import {Route} from '@angular/router';
 import {Book} from '../book';
 import {BookLoan} from '../book-loan';
 import {User} from "../user";
+import {BookDetails} from "../book-details";
 
 @Component({
   selector: 'app-read-book',
@@ -18,6 +19,10 @@ export class ReadBookComponent implements OnInit {
   bookLoans: BookLoan[] = [];
   searchLastName: string = '';
   foundUsers: User[] = [];
+  bookDetails!: BookDetails;
+  searchPerformed: boolean = false;
+
+
 
   constructor(private route: ActivatedRoute, private router: Router,
               private bookService: BookService) {
@@ -29,6 +34,23 @@ export class ReadBookComponent implements OnInit {
       this.book = data;
     });
     this.fetchLoans();
+    this.bookService.getBook(this.id).subscribe(data => {
+      this.book = data;
+
+      // Tutaj używasz this.book.isbn
+      if (this.book.isbn) {
+        this.bookService.getBookDetails(this.book.isbn).subscribe({
+          next: (details) => {
+            this.bookDetails = details;
+          },
+          error: (err) => {
+            console.error('Error fetching book details', err);
+          }
+        });
+      } else {
+        console.error('ISBN is missing in the book data');
+      }
+    });
   }
 
   fetchLoans(): void {
@@ -52,6 +74,7 @@ export class ReadBookComponent implements OnInit {
   }
 
   searchUsers(): void {
+    this.searchPerformed = true;
     this.bookService.searchUsers(this.searchLastName).subscribe(users => {
       this.foundUsers = users;
     });

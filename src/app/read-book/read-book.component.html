@@ -1,21 +1,46 @@
 <h2>Book Details</h2>
 <hr/>
 
-<div *ngIf="book">
-  <div><label><b>Title:</b></label> {{ book.title }}</div>
-  <div><label><b>Author:</b></label> {{ book.author }}</div>
-  <div><label><b>ISBN:</b></label> {{ book.isbn }}</div>
-  <div><label><b>Genre:</b></label> {{ book.genre }}</div>
+<div *ngIf="book && bookDetails" class="row g-4">
+  <div class="col-md-4 text-center">
+    <ng-container *ngIf="bookDetails.coverImage; else noCoverImage">
+      <img [src]="bookDetails.coverImage"
+           alt="Book cover"
+           class="img-fluid" />
+    </ng-container>
+    <ng-template #noCoverImage>
+      <i class="fa-solid fa-book-open-reader fa-10x text-muted"></i>
+    </ng-template>
+  </div>
+
+  <div class="col-md-8">
+    <div class="mb-2"><strong>Title:</strong> {{ book.title }}</div>
+    <div class="mb-2"><strong>Author:</strong> {{ book.author }}</div>
+    <div class="mb-2"><strong>ISBN:</strong> {{ book.isbn }}</div>
+    <div class="mb-2"><strong>Genre:</strong> {{ book.genre }}</div>
+
+    <div *ngIf="bookDetails.publishers?.length">
+      <div class="mb-2"><strong>Publisher:</strong> {{ bookDetails.publishers[0] }}</div>
+    </div>
+
+    <div *ngIf="bookDetails.publishDate">
+      <div class="mb-2"><strong>Publish Date:</strong> {{ bookDetails.publishDate }}</div>
+    </div>
+
+    <div *ngIf="bookDetails.numberOfPages">
+      <div class="mb-2"><strong>Number of Pages:</strong> {{ bookDetails.numberOfPages }}</div>
+    </div>
+  </div>
 </div>
 
 <h4 class="mt-5">Search Users to Loan This Book</h4>
 
 <div class="input-group my-3">
-  <input type="text" class="form-control" [(ngModel)]="searchLastName" placeholder="Search by last name"/>
+  <input type="text" class="form-control" [(ngModel)]="searchLastName" placeholder="Search by last name" />
   <button class="btn btn-outline-primary" (click)="searchUsers()">Search</button>
 </div>
 
-<div *ngIf="foundUsers.length > 0" class="table-responsive">
+<div *ngIf="foundUsers.length > 0; else noUserFound" class="table-responsive">
   <table class="table table-bordered table-hover text-center">
     <thead class="table-light">
     <tr>
@@ -33,9 +58,7 @@
       <td>{{ user.lastName }}</td>
       <td>{{ user.pesel }}</td>
       <td>
-        <button class="btn btn-success btn-sm"
-                [disabled]="!isBookAvailable()"
-                (click)="borrowBook(user.id)">
+        <button class="btn btn-success btn-sm" [disabled]="!isBookAvailable()" (click)="borrowBook(user.id)">
           Borrow
         </button>
       </td>
@@ -43,6 +66,12 @@
     </tbody>
   </table>
 </div>
+
+<ng-template #noUserFound>
+  <div *ngIf="searchPerformed" class="text-center">
+    <p>No users found.</p>
+  </div>
+</ng-template>
 
 <h4 class="mt-5">Loans</h4>
 <div *ngIf="bookLoans?.length; else noBookLoans" class="table-responsive mt-3">
@@ -63,10 +92,7 @@
       <td>{{ loan.start }}</td>
       <td>{{ loan.finish ? loan.finish : '-' }}</td>
       <td>
-        <button
-          *ngIf="!loan.finish"
-          class="btn btn-warning btn-sm"
-          (click)="returnBook(loan.id)">
+        <button *ngIf="!loan.finish" class="btn btn-warning btn-sm" (click)="returnBook(loan.id)">
           Return
         </button>
       </td>
@@ -76,7 +102,7 @@
 </div>
 
 <ng-template #noBookLoans>
-  <p>This book has not been borrowed yet.</p>
+  <p class="text-center">This book has not been borrowed yet.</p>
 </ng-template>
 
 <div class="text-center mt-4">

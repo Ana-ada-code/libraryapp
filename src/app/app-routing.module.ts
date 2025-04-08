@@ -11,7 +11,7 @@ import {ReadBookComponent} from "./read-book/read-book.component";
 
 const routes: Routes = [
 
-  {path: '', redirectTo: 'user', pathMatch: 'full'},
+  {path: '', redirectTo: 'users', pathMatch: 'full'},
   {path: 'users', component: ShowUsersComponent},
   {path: 'add-user', component: CreateUserComponent},
   {path: 'update-user', component: UpdateUserComponent},
