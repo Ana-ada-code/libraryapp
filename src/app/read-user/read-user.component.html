@@ -21,7 +21,11 @@
       </thead>
       <tbody>
       <tr *ngFor="let loan of loans">
-        <td>{{ loan.bookTitle }}</td>
+        <td>
+          <a [routerLink]="['/book-details', loan.bookId]" class="fw-bold text-dark text-decoration-none">
+          {{ loan.bookTitle }}
+        </a>
+        </td>
         <td>{{ loan.bookAuthor }}</td>
         <td>{{ loan.bookIsbn }}</td>
         <td>{{ loan.start | date: 'shortDate' }}</td>
