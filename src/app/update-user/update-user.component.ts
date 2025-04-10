@@ -13,6 +13,7 @@ export class UpdateUserComponent implements OnInit {
   id: number = 0;
   user: User = new User(undefined!, '', '', '');
   submitted = false;
+  validationErrors: string[] = [];
 
   constructor(private route: ActivatedRoute, private router: Router,
               private userService: UserService) {
@@ -31,11 +32,37 @@ export class UpdateUserComponent implements OnInit {
   }
 
   onSubmit(): void {
-    this.userService.updateUser(this.user.id, this.user).subscribe(() => {
-      this.userService.notifyUserListChanged();
-      this.submitted = true;
-      this.router.navigate(['/users']);
-    });
+    this.submitted = true;
+
+    const peselRegex = /^\d{11}$/;
+    if (!peselRegex.test(this.user.pesel)) {
+      this.validationErrors = ['PESEL must be 11 digits'];
+      return;
+    }
+
+    this.userService.updateUser(this.user.id, this.user).subscribe(
+      () => {
+        this.userService.notifyUserListChanged();
+        this.submitted = true;
+        this.router.navigate(['/users']);
+      },
+      error => {
+        let errorMsg = 'An unexpected error occurred';
+
+        if (error?.error) {
+          if (typeof error.error === 'object') {
+            if (error.error.message) {
+              errorMsg = error.error.message;
+            } else {
+              errorMsg = 'An unexpected error occurred';
+            }
+          } else if (typeof error.error === 'string') {
+            errorMsg = error.error;
+          }
+        }
+        this.validationErrors = [errorMsg];
+      }
+    );
   }
 
 }
