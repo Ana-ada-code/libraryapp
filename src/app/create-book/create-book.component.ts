@@ -18,6 +18,7 @@ export class CreateBookComponent implements OnInit {
   book: Book = new Book(undefined!, '', '', '', '');
   genres: string[] = [];
   submitted = false;
+  validationErrors: string[] = [];
 
   ngOnInit() {
     this.bookService.getGenres().subscribe(
@@ -26,16 +27,31 @@ export class CreateBookComponent implements OnInit {
     );
   }
 
-  saveBook() {
-    this.bookService.createBook(this.book)
-      .subscribe(data => console.log(data), error => console.log(error));
-    this.book = new Book(undefined!, '', '', '', '');
-    this.submitted = true;
-    this.gotoBookList();
-  }
-
   onSubmit() {
-    this.saveBook();
+    this.submitted = true;
+
+    this.bookService.createBook(this.book).subscribe(
+      data => {
+        console.log(data);
+        this.gotoBookList();
+      },
+      error => {
+        let errorMsg = 'An unexpected error occurred';
+
+        if (error?.error) {
+          if (typeof error.error === 'object') {
+            if (error.error.message) {
+              errorMsg = error.error.message;
+            } else {
+              errorMsg = 'An unexpected error occurred';
+            }
+          } else if (typeof error.error === 'string') {
+            errorMsg = error.error;
+          }
+        }
+        this.validationErrors = [errorMsg];
+      }
+    );
   }
 
   gotoBookList() {
