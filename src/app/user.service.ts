@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
-import {HttpClient} from '@angular/common/http';
-import {BehaviorSubject, Observable} from 'rxjs';
+import {HttpClient, HttpErrorResponse} from '@angular/common/http';
+import {BehaviorSubject, catchError, Observable, throwError} from 'rxjs';
 import {User} from './user';
 
 @Injectable({
@@ -20,8 +20,8 @@ export class UserService {
     return this.http.get(this.baseUrl + '/' + id);
   }
 
-  createUser(user: User): Observable<any> {
-    return this.http.post(this.baseUrl, user);
+  createUser(user: User): Observable<User> {
+    return this.http.post<User>(this.baseUrl, user).pipe(catchError(this.handleError));
   }
 
   updateUser(id: number, user: User): Observable<any> {
@@ -50,5 +50,13 @@ export class UserService {
 
   returnBook(loanId: number): Observable<any> {
     return this.http.post(`http://localhost:8080/api/loans/${loanId}/finish`, {});
+  }
+
+  private handleError(error: HttpErrorResponse) {
+    if (error.status === 400) {
+      return throwError(error.error);
+    } else {
+      return throwError('An unknown error occurred!');
+    }
   }
 }

@@ -1,7 +1,7 @@
-import { Component, OnInit } from '@angular/core';
-import { UserService } from '../user.service';
-import { Router } from '@angular/router';
-import { User } from '../user';
+import {Component, OnInit} from '@angular/core';
+import {UserService} from '../user.service';
+import {Router} from '@angular/router';
+import {User} from '../user';
 
 @Component({
   selector: 'app-create-user',
@@ -10,28 +10,49 @@ import { User } from '../user';
 })
 export class CreateUserComponent implements OnInit {
 
-  constructor(private userService: UserService, private router: Router) { }
+  constructor(private userService: UserService, private router: Router) {
+  }
 
   user: User = new User(undefined!, '', '', '');
   submitted = false;
+  validationErrors: string[] = [];
 
-  ngOnInit() {
-  }
-
-  saveUser() {
-    this.userService.createUser(this.user)
-      .subscribe(data => console.log(data), error => console.log(error));
-    this.user = new User(undefined!, '', '', '');
-    this.submitted = true;
-    this.gotoUserList();
+  ngOnInit(): void {
   }
 
   onSubmit() {
-    this.saveUser();
+    this.submitted = true;
+
+    const peselRegex = /^\d{11}$/;
+    if (!peselRegex.test(this.user.pesel)) {
+      this.validationErrors = ['PESEL must be 11 digits'];
+      return;
+    }
+
+    this.userService.createUser(this.user).subscribe(
+      data => {
+        this.gotoUserList();
+      },
+      error => {
+        let errorMsg = 'An unexpected error occurred';
+
+        if (error?.error) {
+          if (typeof error.error === 'object') {
+            if (error.error.message) {
+              errorMsg = error.error.message;
+            } else {
+              errorMsg = 'An unexpected error occurred';
+            }
+          } else if (typeof error.error === 'string') {
+            errorMsg = error.error;
+          }
+        }
+        this.validationErrors = [errorMsg];
+      }
+    );
   }
 
   gotoUserList() {
     this.router.navigate(['/users']);
   }
-
 }
