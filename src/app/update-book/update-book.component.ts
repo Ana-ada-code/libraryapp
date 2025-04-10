@@ -14,6 +14,8 @@ export class UpdateBookComponent implements OnInit {
   book: Book = new Book(undefined!, '', '', '', '');
   genres: string[] = [];
   submitted = false;
+  validationErrors: string[] = [];
+
 
   constructor(private route: ActivatedRoute, private router: Router,
               private bookService: BookService) {
@@ -37,11 +39,33 @@ export class UpdateBookComponent implements OnInit {
   }
 
   onSubmit(): void {
-    this.bookService.updateBook(this.book.id, this.book).subscribe(() => {
-      this.bookService.notifyBookListChanged();
-      this.submitted = true;
-      this.router.navigate(['/books']);
-    });
+    this.submitted = true;
+    this.validationErrors = [];
+
+    this.bookService.updateBook(this.book.id, this.book).subscribe(
+      () => {
+        this.bookService.notifyBookListChanged();
+        this.submitted = true;
+        this.router.navigate(['/books']);
+      },
+      error => {
+        let errorMsg = 'An unexpected error occurred';
+
+        // Handle error from the backend
+        if (error?.error) {
+          if (typeof error.error === 'object') {
+            if (error.error.message) {
+              errorMsg = error.error.message;
+            } else {
+              errorMsg = 'An unexpected error occurred';
+            }
+          } else if (typeof error.error === 'string') {
+            errorMsg = error.error;
+          }
+        }
+        this.validationErrors = [errorMsg];
+      }
+    );
   }
 
-}
+  }
