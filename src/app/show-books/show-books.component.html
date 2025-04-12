@@ -36,7 +36,7 @@
                 <td>{{ book.isbn }}</td>
                 <td>{{ book.genre }}</td>
                 <td class="d-flex flex-column flex-md-row justify-content-center gap-2">
-                  <button (click)="deleteBook(book.id)" class="btn btn-danger" title="Delete">
+                  <button (click)="confirmDelete(book.id)" class="btn btn-danger" title="Delete">
                     <i class="fa-solid fa-square-minus"></i>
                   </button>
                   <button (click)="updateBook(book)" class="btn btn-info" title="Update">

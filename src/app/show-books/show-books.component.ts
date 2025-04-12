@@ -28,6 +28,13 @@ export class ShowBooksComponent implements OnInit {
     this.books = this.bookService.getBooksList();
   }
 
+  confirmDelete(id: number) {
+    const confirmed = window.confirm('Are you sure you want to delete this book?');
+    if (confirmed) {
+      this.deleteBook(id);
+    }
+  }
+
   deleteBook(id: number) {
     this.bookService.deleteBook(id)
       .subscribe(
