@@ -28,6 +28,13 @@ export class ShowUsersComponent implements OnInit {
     this.users = this.userService.getUsersList();
   }
 
+  confirmDelete(id: number) {
+    const confirmed = window.confirm('Are you sure you want to delete this user?');
+    if (confirmed) {
+      this.deleteUser(id);
+    }
+  }
+
   deleteUser(id: number) {
     this.userService.deleteUser(id)
       .subscribe(
