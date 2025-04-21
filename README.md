@@ -1,27 +1,61 @@
-# Libraryapp
+# 📚 School Library App - Frontend
+**Author: Anna Adamik**
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 14.2.0.
+## Description
+A responsive web application for managing a school library system. Librarians can browse and manage the book inventory, as well as view and update user data through a dedicated administration panel.
 
-## Development server
+This frontend is built with Angular and communicates with a RESTful API provided by the backend application.
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+🔗 **Live Demo:** https://school-library.ovh/
 
-## Code scaffolding
+---
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+## 🚀 Key Features
 
-## Build
+### Users:
+- View list of users
+- Search users by last name
+- Add user
+- Edit user
+- Delete user
+- View detailed user information, borrowing history and return books
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+### Books:
+- View list of books
+- Search books by title/author/ISBN
+- Add book
+- Edit book
+- Delete book
+- View detailed book information, loans history, return book, search for users to borrow book
 
-## Running unit tests
+---
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+## 🛠 Tech Stack
+- **Framework:** Angular 14.2.0
+- **Language:** TypeScript
+- **UI:** Bootstrap 5
+- **Routing:** Angular Router
+- **HTTP Communication:** Angular HttpClient
+- **State Management:** Angular Services
+- **Icons:** Font Awesome
+- **Build Tool:** Angular CLI
 
-## Running end-to-end tests
+---
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+## 🔧 Setup Instructions
 
-## Further help
+### Development (Local)
+1. Clone the repository:
+git clone https://github.com/Ana-ada-code/library-frontend.git
+2. Navigate to the project directory:
+cd library-frontend
+3. Install dependencies:
+npm install
+4. Run the app:
+5. Visit [http://localhost:4200](http://localhost:4200)
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+### Production
+- Built with:
+ng build --configuration=production
+
+> This project is part of a full-stack system. Backend repo: [github.com/Ana-ada-code/library](https://github.com/Ana-ada-code/library)
